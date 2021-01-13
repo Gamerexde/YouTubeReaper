@@ -23,3 +23,6 @@
     <li>MP3</li>
     <li>M4A</li>
 </ul>
+
+<h2>Contributors</h2>
+<p>App icon created by <a href="https://github.com/DDrack">DDrack</a></p>
