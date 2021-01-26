@@ -71,7 +71,7 @@ app.on('ready', createWindow)
     }
 
     if (process.env.NODE_ENV === 'development') {
-      ffmpegPath = path.join(__dirname, '..', 'node_modules', 'ffmpeg-static', 'ffmpeg.exe')
+      ffmpegPath = path.join(__dirname, '..', 'node_modules', 'ffmpeg-static', 'ffmpeg')
       installExtension(REACT_DEVELOPER_TOOLS)
         .then((name) => console.log(`Added Extension:  ${name}`))
         .catch((err) => console.log('An error occurred: ', err))
@@ -79,7 +79,7 @@ app.on('ready', createWindow)
         .then((name) => console.log(`Added Extension:  ${name}`))
         .catch((err) => console.log('An error occurred: ', err))
     } else {
-      ffmpegPath = path.join(__dirname, '..', 'node_modules', 'ffmpeg-static', 'ffmpeg.exe').replace(
+      ffmpegPath = path.join(__dirname, '..', 'node_modules', 'ffmpeg-static', 'ffmpeg').replace(
         "app.asar", "app.asar.unpacked"
       )
     }
@@ -150,7 +150,6 @@ ipcMain.handle('start-download', async (event, args: downloadArguments) => {
 
   if (args.videoandaudio) {
     if (args.audioFormat !== undefined || args.videoFormat !== undefined) {
-      console.log(path.join(app.getPath("temp"), "audio." + args.audioFormat?.container))
       await pipeline(
         ytdl(args.url, { format: args.audioFormat }),
         fs.createWriteStream(path.join(app.getPath("temp"), "audio." + args.audioFormat?.container))
@@ -219,7 +218,6 @@ async function ffmpegMP4toM4A(audioFormat: ytdl.videoFormat | undefined, videoNa
           const percent = parseTimemarkToSeconds(progress.timemark, videoDuration)
 
           downloadPercent = percent
-          console.log(downloadPercent)
         })
         .on('error', (err) => {
           reject()
@@ -244,7 +242,6 @@ async function ffmpegMP4toMP3(audioFormat: ytdl.videoFormat | undefined, videoNa
           const percent = parseTimemarkToSeconds(progress.timemark, videoDuration)
 
           downloadPercent = percent
-          console.log(downloadPercent)
         })
         .on('error', (err) => {
           reject()
@@ -271,7 +268,6 @@ async function ffmpegCombineMP4andMP3(audioContainer: string | undefined, videoC
           downloadPercent = 100
         })
         .on('error', (err) => {
-          console.log(err)
           reject()
         })
     })
@@ -295,7 +291,6 @@ async function ffmpegCombineAVIandMP3(audioContainer: string | undefined, videoC
           downloadPercent = 100
         })
         .on('error', (err) => {
-          console.log(err)
           reject()
         })
     })

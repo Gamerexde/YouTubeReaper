@@ -94,11 +94,9 @@ class App extends Component<IProps, IState> {
   }
 
   componentDidMount() {
-    console.log('inicio el componente, wua enviar uwu')
     ipcRenderer.send('download-progress-send', 'ping')
 
     ipcRenderer.on('download-progress-response', (event, arg) => {
-      console.log('recibi datos, wua enviar owo')
       this.setState({ downloadPercent: arg})
       new Promise<void>((resolve) => { setTimeout(resolve, 100); }).then(() => {
         ipcRenderer.send('download-progress-send', 'ping')
@@ -125,7 +123,6 @@ class App extends Component<IProps, IState> {
   }
   
   handleFormatChange(event: ChangeEvent<HTMLInputElement>) {
-    console.log(event.currentTarget.value)
     this.setState({ format: event.currentTarget.value})
   }
 
@@ -153,17 +150,11 @@ class App extends Component<IProps, IState> {
 
       if (this.state.format === "MP3" || this.state.format === "M4A") {
         this.setState({resultType: "audio"})
-        console.log(this.state.format)
         filteredAudioFormats = ytdl.filterFormats(result.formats, 'audioonly')
-        console.log(filteredAudioFormats)
       } else if (this.state.format === "MP4" || this.state.format === "AVI") {
-        console.log(this.state.format)
         this.setState({resultType: "video"})
         filteredVideoFormats = ytdl.filterFormats(result.formats, 'videoonly')
         filteredAudioFormats = ytdl.filterFormats(result.formats, 'audioonly')
-
-        console.log(filteredAudioFormats)
-        console.log(filteredVideoFormats)
       }
 
       this.setState({ submitButtonStatus: "retry", result: result, resultAudioFormats: filteredAudioFormats, resultVideoFormats: filteredVideoFormats})
